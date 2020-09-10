@@ -1,0 +1,12 @@
+#
+# SimpleGUICaptcha
+#
+TIME-TO-KICK: 30 #Seconds
+
+KICK-MESSAGE:
+  TIME: '&c&lIt took a long time to complete the captcha, try again'
+  BAD-ITEM: '&c&lYou did not pass the captcha challenge, try again'
+
+CAPTCHA-PASSED: '&aYou successfully passed the captcha'
+
+MENU-TITLE: '&eComplete captcha'
