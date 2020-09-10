@@ -2,10 +2,12 @@ package me.ryzeon.captcha.listeners;
 
 import me.ryzeon.captcha.Captcha;
 import me.ryzeon.captcha.menu.CaptchaMenu;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class PlayerListener implements Listener {
 
     public static List<UUID> passedCaptcha = new ArrayList<>();
 
+    public BukkitRunnable laterTask;
+
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player p = e.getPlayer();
@@ -36,26 +40,32 @@ public class PlayerListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                int time = Captcha.getInstance().getKickTime();
+                laterTask = this;
+                if (!passedCaptcha.contains(p.getUniqueId())){
+                    p.kickPlayer(Captcha.getInstance().getMainConfig().getString("KICK-MESSAGE.TIME"));
+                }
+            }
+        }.runTaskLater(Captcha.getInstance(),Captcha.getInstance().getKickTime()*20L);
 
-                time = time - 1;
-
+        new BukkitRunnable() {
+            @Override
+            public void run() {
                 if (passedCaptcha.contains(p.getUniqueId())) {
                     p.sendMessage(Captcha.getInstance().getMainConfig().getString("CAPTCHA-PASSED"));
                     cancel();
-                    passedCaptcha.remove(p.getUniqueId());
+                    laterTask.cancel();
                 }
-
                 if (!p.isOnline()) {
                     cancel();
                 }
-
-                if (time <= 0) {
-                    p.kickPlayer(Captcha.getInstance().getMainConfig().getString("KICK-MESSAGE.TIME"));
-                    cancel();
-                }
-
             }
-        }.runTaskTimer(Captcha.getInstance(), 20L, 20L);
+        }.runTaskTimer(Captcha.getInstance(), 5, 5);
+    }
+
+    @EventHandler
+    public void onPlayerQuitEvent(PlayerQuitEvent event){
+        if (passedCaptcha.contains(event.getPlayer().getUniqueId())){
+            passedCaptcha.remove(event.getPlayer().getUniqueId());
+        }
     }
 }
