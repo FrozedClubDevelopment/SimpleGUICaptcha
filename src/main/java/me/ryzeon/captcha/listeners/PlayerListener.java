@@ -2,7 +2,6 @@ package me.ryzeon.captcha.listeners;
 
 import me.ryzeon.captcha.Captcha;
 import me.ryzeon.captcha.menu.CaptchaMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
