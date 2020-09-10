@@ -1,3 +1,7 @@
 name: SimpleGUICaptcha
 version: ${project.version}
 main: me.ryzeon.captcha.Captcha
+website: www.frozed.club
+authors:
+  - FrozedClubDevelopment
+  - Ryzeon

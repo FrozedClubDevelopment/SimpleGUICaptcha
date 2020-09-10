@@ -2,6 +2,7 @@ package me.ryzeon.captcha.listeners;
 
 import me.ryzeon.captcha.Captcha;
 import me.ryzeon.captcha.menu.CaptchaMenu;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,11 +41,11 @@ public class PlayerListener implements Listener {
             @Override
             public void run() {
                 laterTask = this;
-                if (!passedCaptcha.contains(p.getUniqueId())){
+                if (!passedCaptcha.contains(p.getUniqueId())) {
                     p.kickPlayer(Captcha.getInstance().getMainConfig().getString("KICK-MESSAGE.TIME"));
                 }
             }
-        }.runTaskLater(Captcha.getInstance(),Captcha.getInstance().getKickTime()*20L);
+        }.runTaskLater(Captcha.getInstance(), Captcha.getInstance().getKickTime() * 20L);
 
         new BukkitRunnable() {
             @Override
@@ -52,7 +53,10 @@ public class PlayerListener implements Listener {
                 if (passedCaptcha.contains(p.getUniqueId())) {
                     p.sendMessage(Captcha.getInstance().getMainConfig().getString("CAPTCHA-PASSED"));
                     cancel();
-                    laterTask.cancel();
+
+                    if (laterTask != null) {
+                        laterTask.cancel();
+                    }
                 }
                 if (!p.isOnline()) {
                     cancel();
@@ -62,9 +66,12 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuitEvent(PlayerQuitEvent event){
-        if (passedCaptcha.contains(event.getPlayer().getUniqueId())){
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        if (passedCaptcha.contains(event.getPlayer().getUniqueId())) {
             passedCaptcha.remove(event.getPlayer().getUniqueId());
+            if (laterTask != null) {
+                laterTask.cancel();
+            }
         }
     }
 }

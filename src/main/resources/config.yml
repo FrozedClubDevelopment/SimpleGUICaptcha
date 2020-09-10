@@ -1,7 +1,8 @@
-TIME-TO-KICK: 30 #Seconds
+# The time goes in seconds
+TIME-TO-KICK: 30
 
 KICK-MESSAGE:
-  TIME: '&c&lIt took a long time to complete the captcha, try again'
+  TIME: '&c&lYou took too long to complete the captcha! Try again.'
   BAD-ITEM: '&c&lYou did not pass the captcha challenge, try again'
 
 CAPTCHA-PASSED: '&aYou successfully passed the captcha'
