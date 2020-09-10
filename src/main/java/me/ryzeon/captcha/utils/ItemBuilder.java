@@ -19,7 +19,15 @@ import java.util.List;
  */
 
 public class ItemBuilder {
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
+
+    public ItemBuilder(Material material) {
+        this.itemStack = new ItemStack(material);
+    }
+
+    public ItemBuilder(ItemStack itemStack) {
+        this.itemStack = itemStack;
+    }
 
     public static ItemBuilder copyOf(ItemBuilder builder) {
         return new ItemBuilder(builder.get());
@@ -29,12 +37,34 @@ public class ItemBuilder {
         return new ItemBuilder(item);
     }
 
-    public ItemBuilder(Material material) {
-        this.itemStack = new ItemStack(material);
+    public static void rename(ItemStack stack, String name) {
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(CC.translate(name));
+        stack.setItemMeta(meta);
     }
 
-    public ItemBuilder(ItemStack itemStack) {
-        this.itemStack = itemStack;
+    public static ItemStack createItem(Material material, String name) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(CC.translate(name));
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack createItem(Material material, String name, int amount) {
+        ItemStack item = new ItemStack(material, amount);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(CC.translate(name));
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack createItem(Material material, String name, int amount, short damage) {
+        ItemStack item = new ItemStack(material, amount, damage);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(CC.translate(name));
+        item.setItemMeta(meta);
+        return item;
     }
 
     public ItemBuilder setAmount(int amount) {
@@ -74,12 +104,12 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setDurability(int durability) {
-        this.itemStack.setDurability((short)durability);
+        this.itemStack.setDurability((short) durability);
         return this;
     }
 
     public ItemBuilder setData(int data) {
-        this.itemStack.setData(new MaterialData(this.itemStack.getType(), (byte)data));
+        this.itemStack.setData(new MaterialData(this.itemStack.getType(), (byte) data));
         return this;
     }
 
@@ -116,7 +146,7 @@ public class ItemBuilder {
         if (this.itemStack.getType() != Material.LEATHER_BOOTS && this.itemStack.getType() != Material.LEATHER_CHESTPLATE && this.itemStack.getType() != Material.LEATHER_HELMET && this.itemStack.getType() != Material.LEATHER_LEGGINGS) {
             throw new IllegalArgumentException("color() only applicable for leather armor.");
         } else {
-            LeatherArmorMeta meta = (LeatherArmorMeta)this.itemStack.getItemMeta();
+            LeatherArmorMeta meta = (LeatherArmorMeta) this.itemStack.getItemMeta();
             meta.setColor(color);
             this.itemStack.setItemMeta(meta);
             return this;
@@ -124,7 +154,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setOwner(String owner) {
-        SkullMeta meta = (SkullMeta)this.itemStack.getItemMeta();
+        SkullMeta meta = (SkullMeta) this.itemStack.getItemMeta();
         meta.setOwner(owner);
         this.itemStack.setItemMeta(meta);
         return this;
@@ -132,36 +162,6 @@ public class ItemBuilder {
 
     public ItemStack get() {
         return this.itemStack;
-    }
-
-    public static void rename(ItemStack stack, String name) {
-        ItemMeta meta = stack.getItemMeta();
-        meta.setDisplayName(CC.translate(name));
-        stack.setItemMeta(meta);
-    }
-
-    public static ItemStack createItem(Material material, String name) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(CC.translate(name));
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public static ItemStack createItem(Material material, String name, int amount) {
-        ItemStack item = new ItemStack(material, amount);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(CC.translate(name));
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public static ItemStack createItem(Material material, String name, int amount, short damage) {
-        ItemStack item = new ItemStack(material, amount, damage);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(CC.translate(name));
-        item.setItemMeta(meta);
-        return item;
     }
 
 }

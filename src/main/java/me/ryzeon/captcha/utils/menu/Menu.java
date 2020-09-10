@@ -13,7 +13,6 @@ import org.bukkit.inventory.InventoryHolder;
  * Date: 10/09/2020 @ 08:14
  * Template by Elb1to
  */
-
 public interface Menu extends InventoryHolder {
 
     default void open(Player player) {
@@ -26,6 +25,7 @@ public interface Menu extends InventoryHolder {
         if (InventoryUtil.clickedTopInventory(event)) event.setCancelled(true);
     }
 
-    default void onInventoryClose(InventoryCloseEvent event) { }
+    default void onInventoryClose(InventoryCloseEvent event) {
+    }
 }
 

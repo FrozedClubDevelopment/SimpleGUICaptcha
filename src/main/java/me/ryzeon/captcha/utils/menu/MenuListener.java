@@ -12,7 +12,6 @@ import org.bukkit.event.inventory.InventoryDragEvent;
  * Date: 10/09/2020 @ 08:14
  * Template by Elb1to
  */
-
 public final class MenuListener implements Listener {
 
     @EventHandler

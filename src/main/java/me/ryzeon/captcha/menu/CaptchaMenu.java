@@ -13,9 +13,6 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-
-import java.util.Random;
 
 /**
  * Created by Ryzeon
@@ -23,12 +20,11 @@ import java.util.Random;
  * Date: 10/09/2020 @ 08:50
  * Template by Elb1to
  */
-
 public class CaptchaMenu implements Menu {
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public CaptchaMenu() {
-        this.inventory = Bukkit.createInventory((InventoryHolder) this, 9 * 3, Captcha.getInstance().getMainConfig().getString("MENU-TITLE"));
+        this.inventory = Bukkit.createInventory(this, 9 * 3, Captcha.getInstance().getMainConfig().getString("MENU-TITLE"));
     }
 
     @Override
@@ -39,7 +35,7 @@ public class CaptchaMenu implements Menu {
 
     public void update() {
         this.inventory.clear();
-        this.inventory.setItem(Utils.randomInteger(0,26),new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(13).setName("&aClick here!").get());
+        this.inventory.setItem(Utils.randomInteger(0, 26), new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(13).setName("&aClick here!").get());
         InventoryUtil.fillInventory(this.inventory);
     }
 
@@ -51,8 +47,8 @@ public class CaptchaMenu implements Menu {
         if (!topInventory.equals(this.inventory)) {
             return;
         }
-        if (topInventory.equals(closeInventory)){
-            if (!PlayerListener.passedCaptcha.contains(player.getUniqueId())){
+        if (topInventory.equals(closeInventory)) {
+            if (!PlayerListener.passedCaptcha.contains(player.getUniqueId())) {
                 player.kickPlayer(Captcha.getInstance().getMainConfig().getString("KICK-MESSAGE.BAD-ITEM"));
             }
         }
@@ -72,7 +68,7 @@ public class CaptchaMenu implements Menu {
                 return;
             if (!e.getCurrentItem().hasItemMeta()) return;
 
-            if (e.getCurrentItem().equals(new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(13).setName("&aClick here!").get())){
+            if (e.getCurrentItem().equals(new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability(13).setName("&aClick here!").get())) {
                 PlayerListener.passedCaptcha.add(p.getUniqueId());
                 p.closeInventory();
             } else {

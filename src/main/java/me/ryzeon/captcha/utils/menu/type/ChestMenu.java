@@ -19,7 +19,7 @@ public abstract class ChestMenu<T extends JavaPlugin> implements Menu {
     protected final Inventory inventory;
 
     public ChestMenu(String title, int size) {
-        this.plugin = JavaPlugin.getPlugin((Class)(((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]));
+        this.plugin = JavaPlugin.getPlugin((Class) (((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0]));
         this.inventory = this.plugin.getServer().createInventory(this, size, title.length() > 32 ? title.substring(0, 32) : title);
     }
 

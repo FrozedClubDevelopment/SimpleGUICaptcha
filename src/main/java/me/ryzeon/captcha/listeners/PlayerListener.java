@@ -18,13 +18,12 @@ import java.util.UUID;
  * Date: 10/09/2020 @ 08:31
  * Template by Elb1to
  */
-
 public class PlayerListener implements Listener {
 
     public static List<UUID> passedCaptcha = new ArrayList<>();
 
     @EventHandler
-    public void onPlayerJoinEvent(PlayerJoinEvent e){
+    public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
         new BukkitRunnable() {
@@ -32,33 +31,31 @@ public class PlayerListener implements Listener {
             public void run() {
                 new CaptchaMenu().open(p);
             }
-        }.runTaskLater(Captcha.getInstance(),5L);
+        }.runTaskLater(Captcha.getInstance(), 5L);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 int time = Captcha.getInstance().getKickTime();
 
-                time = time-1;
+                time = time - 1;
 
-                if (passedCaptcha.contains(p.getUniqueId())){
+                if (passedCaptcha.contains(p.getUniqueId())) {
                     p.sendMessage(Captcha.getInstance().getMainConfig().getString("CAPTCHA-PASSED"));
                     cancel();
                     passedCaptcha.remove(p.getUniqueId());
                 }
 
-                if (!p.isOnline()){
+                if (!p.isOnline()) {
                     cancel();
                 }
 
-                if (time <= 0){
+                if (time <= 0) {
                     p.kickPlayer(Captcha.getInstance().getMainConfig().getString("KICK-MESSAGE.TIME"));
                     cancel();
                 }
 
             }
-        }.runTaskTimer(Captcha.getInstance(),20L,20L);
+        }.runTaskTimer(Captcha.getInstance(), 20L, 20L);
     }
-
-
 }

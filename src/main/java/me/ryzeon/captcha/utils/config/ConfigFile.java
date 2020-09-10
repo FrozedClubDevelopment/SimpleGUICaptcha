@@ -16,12 +16,12 @@ import java.util.List;
  * Date: 10/09/2020 @ 08:39
  * Template by Elb1to
  */
-
 public class ConfigFile {
 
     @Getter
-    private File file;
-    @Getter private YamlConfiguration configuration;
+    private final File file;
+    @Getter
+    private final YamlConfiguration configuration;
 
     public ConfigFile(JavaPlugin plugin, String name) {
         file = new File(plugin.getDataFolder(), name + ".yml");
@@ -71,8 +71,7 @@ public class ConfigFile {
         if (configuration.contains(path)) {
             if (colorize) {
                 return ChatColor.translateAlternateColorCodes('&', configuration.getString(path));
-            }
-            else {
+            } else {
                 return configuration.getString(path);
             }
         }
