@@ -20,6 +20,7 @@ import java.util.UUID;
  * Date: 10/09/2020 @ 08:31
  * Template by Elb1to
  */
+
 public class PlayerListener implements Listener {
 
     public static List<UUID> passedCaptcha = new ArrayList<>();
@@ -29,6 +30,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player p = e.getPlayer();
+        if (p.hasPermission("simplecaptcha.bypass")) return;
 
         new BukkitRunnable() {
             @Override
@@ -67,6 +69,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
+
         if (passedCaptcha.contains(event.getPlayer().getUniqueId())) {
             passedCaptcha.remove(event.getPlayer().getUniqueId());
             if (laterTask != null) {
